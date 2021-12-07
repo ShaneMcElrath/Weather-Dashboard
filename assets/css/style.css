@@ -21,6 +21,7 @@ header{
 
 main {
   display: flex;
+  flex-basis: 206px;
 }
 
 li {
@@ -53,6 +54,12 @@ li {
   border-radius: 5px;
 }
 
+.citySearch button:hover {
+  color:rgb(0, 140, 255);
+  background-color: white;
+  border: solid 3px rgb(0, 140, 255);
+}
+
 .citySearch ul {
   margin-top: 25px;
   padding-top: 5px;
@@ -67,6 +74,19 @@ li {
   border-radius: 5px;
 }
 /* end CitySearch */
+
+/* History */
+.history li{
+  display: none;
+  text-align: center;
+  padding-top: 4px;
+}
+
+.history li:hover {
+  border: solid 3px black;
+  padding-top: 0px;
+}
+/* end History */
 
 
 /* WeatherDisplay */
@@ -121,12 +141,14 @@ h3 {
 
 .futureForcast ul {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  flex-basis: 225px;
 }
 
 .futureForcast li {
   margin: 10px;
-  width: 225px;
+  width: 212px;
   height: 250px;
   background-color: #3d4a69;
   color: white;
@@ -138,3 +160,54 @@ h3 {
 }
 /* end FutureForcast */
 
+@media screen and (max-width: 1100px) {
+  .citySearch{
+    width: 30%;
+  }
+
+  .weatherDisplay {
+    width: 70%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .citySearch{
+    width: 35%;
+  }
+
+  .weatherDisplay {
+    width: 65%;
+  }
+}
+
+@media screen and (max-width: 755px) {
+  main {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .citySearch{
+    margin-left: 0px;
+    width: 50%;
+  }
+
+  .weatherDisplay {
+    width:90%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .citySearch{
+    width: 90%;
+  }
+
+  .weatherDisplay {
+    width:95%;
+  }
+}
+
+@media screen and (max-width: 406px) {
+  .currentDayWeather h2 {
+    height: 110px;
+  }
+}

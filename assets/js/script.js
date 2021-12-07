@@ -19,22 +19,6 @@ var getWeather = function(lon, lat, name) {
 };
 /* end Gets and returns Weather */
 
-/* Gets Forecast */
-/* var getForecast = function(city) {
-  var apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=091f1752a6e9d90fa6a0ffdd6099b4c4&units=imperial`;
-
-  fetch(apiUrl).then(function(response) {
-    if (response.ok) {
-      response.json().then(function(data) {
-      })
-    }
-    else {
-      console.log("error")
-    }
-  })
-}; */
-/* end Gets and returns Forecast */
-
 /* Gets latitude and longitude and calls getWeather() */
 var getLatAndLon = function(city) {
   var apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=091f1752a6e9d90fa6a0ffdd6099b4c4&units=imperial`;
@@ -43,6 +27,7 @@ var getLatAndLon = function(city) {
     if (response.ok) {
       response.json().then(function(data) {
         getWeather(data.coord.lon, data.coord.lat, data.name);
+        getAndSaveHistory(city);
       })
     }
     else {
@@ -117,6 +102,68 @@ var displayForcast = function(weather) {
 }
 /* endDisplay Forcast */
 
+/* Gets user input and calls getLatAndLon() and saveAndDisplayHistory() */
+var getInput  = function() {
+  cityInput = $(".cityInput").val();
+  if (cityInput) {
+    getLatAndLon(cityInput);
+  }
+};
+/* end Gets user input and calls getLatAndLon and saveAndDisplayHistory() */
 
+/* Gets history from local storage saves new search to history and local storage and calles displayHistory() */
+var getAndSaveHistory = function(cityInput) {
+  cityInputList = localStorage.getItem('key');
 
-var weather = getLatAndLon('Austin');
+    if (!cityInput && cityInputList) {
+      cityInputList = JSON.parse(cityInputList);
+    }
+    else if(cityInputList) {
+      cityInputList = JSON.parse(cityInputList);
+      if (cityInputList[0] != cityInput) {
+        cityInputList.unshift(cityInput);
+      }
+    }
+    else if (cityInput) {
+      cityInputList = [cityInput];
+    }
+
+    if (cityInputList) {
+      if (cityInputList.length > 8) {
+        cityInputList.splice(8);
+      }
+
+      localStorage.setItem('key', JSON.stringify(cityInputList));
+
+      console.log(cityInputList);
+      displayHistory(cityInputList);
+    }
+};
+/* end Gets history from local storage saves new search to history and local storage and calles displayHistory() */
+
+/* Displays history */
+var displayHistory = function(cityInputList) {
+  var historyItem = $(".history");
+  for (var i = 0; i < cityInputList.length; i++) {
+    historyItem.children().eq(i).html(cityInputList[i]);
+    historyItem.children().eq(i).css("display", "list-item");
+  }
+};
+/* end Displays history */
+
+/* Displays weather for history city that was clicked in history */
+var clickHistory = function(event) {
+  var city = $(event.target);
+
+  if (city.is('li')) {
+    getLatAndLon(city.html());
+  }
+};
+/* end Displays weather for history city that was clicked in history */
+
+var cityInputList = [];
+
+getLatAndLon('Austin');
+
+$(".searchButton").on("click", getInput);
+$(".history").on("click", clickHistory);
