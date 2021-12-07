@@ -103,10 +103,13 @@ var displayForcast = function(weather) {
 /* endDisplay Forcast */
 
 /* Gets user input and calls getLatAndLon() and saveAndDisplayHistory() */
-var getInput  = function() {
+var getInput  = function(event) {
+  event.preventDefault();
+
   cityInput = $(".cityInput").val();
   if (cityInput) {
     getLatAndLon(cityInput);
+    $(".cityInput").val('');
   }
 };
 /* end Gets user input and calls getLatAndLon and saveAndDisplayHistory() */
@@ -165,5 +168,5 @@ var cityInputList = [];
 
 getLatAndLon('Austin');
 
-$(".searchButton").on("click", getInput);
+$("form").on("submit", getInput);
 $(".history").on("click", clickHistory);
