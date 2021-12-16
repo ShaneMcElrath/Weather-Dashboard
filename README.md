@@ -15,4 +15,4 @@ A website that diplays the weather of any city as user inputs.
 * Open Weather API
 
 ## Website
-https://shanemcelrath.github.io/Weather-Dashboard/
+https://shanemcelrath.github.io/Weather-Dashboard-Challenge/
